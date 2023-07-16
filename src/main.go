@@ -7,6 +7,8 @@ import (
 	"log"
 	"net"
 	"os"
+
+	"layeh.com/radius"
 )
 
 func main() {
@@ -80,6 +82,15 @@ func handleClient(conn net.Conn) {
 
 		}
 		log.Printf("server: conn: echo %v\n", buf[:n])
+
+		radius_packet, err := radius.Parse(buf, []byte("radsec"))
+		if err != nil {
+			log.Println("cannot parse radius packet: ", err)
+		}
+		if radius_packet.Code == radius.CodeAccessRequest {
+			log.Printf("server: conn: echo %v\n", radius_packet.Attributes)
+		}
+
 		// n, err = conn.Write(buf[:n])
 		// log.Printf("server: conn: wrote %d bytes", n)
 		// if err != nil {
