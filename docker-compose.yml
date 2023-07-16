@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  goradius:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - 2083:2083
+    volumes:
+      - ./:/goradius
