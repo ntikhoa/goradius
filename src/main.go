@@ -88,7 +88,9 @@ func handleClient(conn net.Conn) {
 			log.Println("cannot parse radius packet: ", err)
 		}
 		if radius_packet.Code == radius.CodeAccessRequest {
-			log.Printf("server: conn: echo %v\n", radius_packet.Attributes)
+			for _, attr := range radius_packet.Attributes {
+				log.Printf("server: conn: echo %v\n", attr)
+			}
 		}
 
 		// n, err = conn.Write(buf[:n])
